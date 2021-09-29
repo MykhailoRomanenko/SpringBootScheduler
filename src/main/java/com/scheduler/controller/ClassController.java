@@ -1,9 +1,11 @@
 package com.scheduler.controller;
 
 import com.scheduler.service.ClassService;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("/api/v1/classes")
 public class ClassController {
 
     private final ClassService classService;
