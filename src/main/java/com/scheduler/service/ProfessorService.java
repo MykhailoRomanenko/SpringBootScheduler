@@ -11,4 +11,8 @@ public class ProfessorService {
     public ProfessorService(ProfessorRepository professorRepository) {
         this.professorRepository = professorRepository;
     }
+
+    public String alive() {
+        return "ProfessorService alive";
+    }
 }

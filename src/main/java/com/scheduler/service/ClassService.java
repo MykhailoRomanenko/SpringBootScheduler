@@ -11,4 +11,8 @@ public class ClassService {
     public ClassService(ClassRepository classRepository) {
         this.classRepository = classRepository;
     }
+
+    public String alive() {
+        return "ClassService alive";
+    }
 }

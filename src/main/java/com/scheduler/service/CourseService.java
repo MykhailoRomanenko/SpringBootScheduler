@@ -11,4 +11,8 @@ public class CourseService {
     public CourseService(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
     }
+
+    public String alive() {
+        return "CourseService alive";
+    }
 }
