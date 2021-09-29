@@ -5,6 +5,4 @@ Console url: http://localhost:8080/h2-console
 
 User Name: `sa`
 
-Password:
-
-(empty password)
+Password: `password`

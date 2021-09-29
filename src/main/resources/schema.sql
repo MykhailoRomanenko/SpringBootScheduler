@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS public.courses
 
 ALTER TABLE public.courses
     ADD FOREIGN KEY (program_id)
-        REFERENCES public.programs(id);
+        REFERENCES public.programs (id);
 
 CREATE TABLE IF NOT EXISTS public.classes
 (
@@ -34,18 +34,18 @@ CREATE TABLE IF NOT EXISTS public.classes
 
 ALTER TABLE public.classes
     ADD FOREIGN KEY (professor_id)
-        REFERENCES public.professors(id);
+        REFERENCES public.professors (id);
 
 ALTER TABLE public.classes
     ADD FOREIGN KEY (course_id)
-        REFERENCES public.courses(id);
+        REFERENCES public.courses (id);
 
 
 CREATE TABLE IF NOT EXISTS public.schedule_records
 (
     id       UUID PRIMARY KEY,
     room     VARCHAR(250),
-    timeslot VARCHAR(250) NOT NULL,
+    timeslot INT          NOT NULL,
     weeks    VARCHAR(250) NOT NULL,
     day      INT          NOT NULL,
     class_id UUID
@@ -53,4 +53,4 @@ CREATE TABLE IF NOT EXISTS public.schedule_records
 
 ALTER TABLE public.schedule_records
     ADD FOREIGN KEY (class_id)
-        REFERENCES public.classes(id);
+        REFERENCES public.classes (id);
