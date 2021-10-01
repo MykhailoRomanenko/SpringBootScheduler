@@ -1,0 +1,19 @@
+### Http request for classes
+
+GET localhost:8080/api/v1/courses/all
+
+###
+GET localhost:8080/api/v1/courses/{id}
+
+###
+POST localhost:8080/api/v1/courses
+Content-Type: application/json
+
+< ./request/postClass.json
+
+###
+PUT localhost:8080/api/v1/courses
+
+//TODO request body
+###
+DELETE localhost:8080/api/v1/courses/{id}
