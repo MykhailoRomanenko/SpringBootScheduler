@@ -2,17 +2,19 @@ package com.scheduler.mapper;
 
 import com.scheduler.dto.Professor.ProfessorResponseDto;
 import com.scheduler.entity.Professor;
-import com.scheduler.model.ClassType;
 import com.scheduler.model.Position;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface ProfessorResponseMapper {
+public interface ProfessorMapper {
 
-    ProfessorResponseDto entityToResponseDto(Professor entity);
+    ProfessorResponseDto mapToResponse(Professor entity);
 
-    default String getClassTypeString(Position position) {
+    List<ProfessorResponseDto> mapToResponses(List<Professor> entity);
+
+    default String mapPositionToString(Position position) {
         return position.getDescription();
     }
 }

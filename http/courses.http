@@ -12,8 +12,10 @@ Content-Type: application/json
 < ./request/postClass.json
 
 ###
-PUT localhost:8080/api/v1/courses
+PUT localhost:8080/api/v1/courses/{id}
+Content-Type: application/json
 
-//TODO request body
+< ./request/postClass.json
+
 ###
 DELETE localhost:8080/api/v1/courses/{id}

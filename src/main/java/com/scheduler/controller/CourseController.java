@@ -1,6 +1,7 @@
 package com.scheduler.controller;
 
-import com.scheduler.entity.Course;
+import com.scheduler.dto.Course.CourseCreateDto;
+import com.scheduler.dto.Course.CourseResponseDto;
 import com.scheduler.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,23 +20,23 @@ public class CourseController {
     private CourseService courseService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Course>> findAll() {
+    public ResponseEntity<List<CourseResponseDto>> findAll() {
         return ok(courseService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> findById(@PathVariable UUID id) {
+    public ResponseEntity<CourseResponseDto> findById(@PathVariable UUID id) {
         return ok(courseService.findById(id));
     }
 
     @PostMapping("")
-    public ResponseEntity<Course> save(@RequestBody Course course) {
+    public ResponseEntity<CourseResponseDto> save(@RequestBody CourseCreateDto course) {
         return ok(courseService.save(course));
     }
 
-    @PutMapping("")
-    public ResponseEntity<Course> update(@RequestBody Course course) {
-        return ok(courseService.update(course));
+    @PutMapping("/{id}")
+    public ResponseEntity<CourseResponseDto> update(@PathVariable UUID id, @RequestBody CourseCreateDto course) {
+        return ok(courseService.update(id, course));
     }
 
     @DeleteMapping("/{id}")

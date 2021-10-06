@@ -6,7 +6,8 @@ import java.util.UUID;
 
 @Data
 public class ClassCreateDto {
+
+    private String classType;
     private UUID professorId;
     private UUID courseId;
-    private String classType;
 }

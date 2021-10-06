@@ -1,13 +1,13 @@
 package com.scheduler.controller;
 
-import com.scheduler.entity.Program;
+import com.scheduler.dto.Program.ProgramCreateDto;
+import com.scheduler.dto.Program.ProgramResponseDto;
 import com.scheduler.service.ProgramService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -22,7 +22,29 @@ public class ProgramController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Program>> findAll() {
+    public ResponseEntity<List<ProgramResponseDto>> findAll() {
         return ok(programService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProgramResponseDto> findById(@PathVariable UUID id) {
+        return ok(programService.findById(id));
+    }
+
+    @PostMapping("")
+    public ResponseEntity<ProgramResponseDto> save(@RequestBody ProgramCreateDto programCreateDto) {
+        return ok(programService.save(programCreateDto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProgramResponseDto> update(@PathVariable UUID id,
+                                                     @RequestBody ProgramCreateDto programCreateDto) {
+        return ok(programService.update(id, programCreateDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
+        programService.deleteById(id);
+        return ok().build();
     }
 }

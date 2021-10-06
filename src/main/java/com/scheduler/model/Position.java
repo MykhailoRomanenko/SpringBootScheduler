@@ -2,6 +2,9 @@ package com.scheduler.model;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public enum Position {
 
     DOCENT("доц."),
@@ -14,5 +17,11 @@ public enum Position {
 
     Position(String description) {
         this.description = description;
+    }
+
+    public static Position valueOfDescription(String description) {
+        Optional<Position> position =
+                Arrays.stream(values()).filter(p -> p.getDescription().equalsIgnoreCase(description)).findFirst();
+        return position.orElseThrow(() -> new RuntimeException(String.format("Position with description: %s, not found", description)));
     }
 }
