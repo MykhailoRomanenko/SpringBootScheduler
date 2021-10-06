@@ -1,5 +1,6 @@
 package com.scheduler.controller;
 
+import com.scheduler.dto.Class.ClassResponseDto;
 import com.scheduler.entity.Class;
 import com.scheduler.service.ClassService;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class ClassController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Class>> findAll() {
+    public ResponseEntity<List<ClassResponseDto>> findAll() {
         return ok(classService.findAll());
     }
 }
