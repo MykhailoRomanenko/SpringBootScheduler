@@ -2,6 +2,7 @@ package com.scheduler.controller;
 
 import com.scheduler.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
+@ConditionalOnProperty(
+        value="controller.professor.active",
+        havingValue = "true",
+        matchIfMissing = true)
 @RequestMapping("/api/v1/professors")
 public class ProfessorController {
 
