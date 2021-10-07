@@ -1,11 +1,14 @@
 package com.scheduler.controller;
 
+import com.scheduler.dto.Course.CourseCreateDto;
+import com.scheduler.dto.Course.CourseResponseDto;
 import com.scheduler.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -16,8 +19,29 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @GetMapping("/alive")
-    public ResponseEntity<String> alive() {
-        return ok(courseService.alive());
+    @GetMapping("/all")
+    public ResponseEntity<List<CourseResponseDto>> findAll() {
+        return ok(courseService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CourseResponseDto> findById(@PathVariable UUID id) {
+        return ok(courseService.findById(id));
+    }
+
+    @PostMapping("")
+    public ResponseEntity<CourseResponseDto> save(@RequestBody CourseCreateDto course) {
+        return ok(courseService.save(course));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CourseResponseDto> update(@PathVariable UUID id, @RequestBody CourseCreateDto course) {
+        return ok(courseService.update(id, course));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
+        courseService.deleteById(id);
+        return ok().build();
     }
 }

@@ -31,4 +31,10 @@ public enum Timeslot {
                 Arrays.stream(values()).filter(slot -> slot.getNumber().equals(number)).findFirst();
         return timeslot.orElseThrow(() -> new RuntimeException(String.format("Timeslot with number: %s, not found", number)));
     }
+
+    public static Timeslot valueOfDescription(String description) {
+        Optional<Timeslot> timeslot =
+                Arrays.stream(values()).filter(t -> t.getDescription().equalsIgnoreCase(description)).findFirst();
+        return timeslot.orElseThrow(() -> new RuntimeException(String.format("Timeslot with description: %s, not found", description)));
+    }
 }
