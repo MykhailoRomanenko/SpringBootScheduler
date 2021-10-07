@@ -1,13 +1,15 @@
 package com.scheduler.controller;
 
+import com.scheduler.dto.Professor.ProfessorCreateDto;
+import com.scheduler.dto.Professor.ProfessorResponseDto;
 import com.scheduler.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -26,8 +28,30 @@ public class ProfessorController {
         this.professorService = professorService;
     }
 
-    @GetMapping("/alive")
-    public ResponseEntity<String> alive() {
-        return ok(professorService.alive());
+    @GetMapping("/all")
+    public ResponseEntity<List<ProfessorResponseDto>> findAll() {
+        return ok(professorService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProfessorResponseDto> findById(@PathVariable UUID id) {
+        return ok(professorService.findById(id));
+    }
+
+    @PostMapping("")
+    public ResponseEntity<ProfessorResponseDto> save(@RequestBody ProfessorCreateDto professorCreateDto) {
+        return ok(professorService.save(professorCreateDto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProfessorResponseDto> update(@PathVariable UUID id,
+                                                       @RequestBody ProfessorCreateDto professorCreateDto) {
+        return ok(professorService.update(id, professorCreateDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
+        professorService.deleteById(id);
+        return ok().build();
     }
 }

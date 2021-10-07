@@ -10,11 +10,11 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
-@Table(name = "classes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "classes")
 public class Class {
 
     @Id

@@ -1,11 +1,14 @@
 package com.scheduler.controller;
 
+import com.scheduler.dto.Class.ClassCreateDto;
+import com.scheduler.dto.Class.ClassResponseDto;
 import com.scheduler.service.ClassService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -23,8 +26,30 @@ public class ClassController {
         this.classService = classService;
     }
 
-    @GetMapping("/alive")
-    public ResponseEntity<String> alive() {
-        return ok(classService.alive());
+    @GetMapping("/all")
+    public ResponseEntity<List<ClassResponseDto>> findAll() {
+        return ok(classService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClassResponseDto> findById(@PathVariable UUID id) {
+        return ok(classService.findById(id));
+    }
+
+    @PostMapping("")
+    public ResponseEntity<ClassResponseDto> save(@RequestBody ClassCreateDto classCreateDto) {
+        return ok(classService.save(classCreateDto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ClassResponseDto> update(@RequestBody ClassCreateDto classCreateDto,
+                                                   @PathVariable UUID id) {
+        return ok(classService.update(id, classCreateDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
+        classService.deleteById(id);
+        return ok().build();
     }
 }
