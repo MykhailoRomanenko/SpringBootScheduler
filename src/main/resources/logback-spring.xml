@@ -12,6 +12,15 @@
         </layout>
     </appender>
 
+    <appender name="Service"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{yyyy MMM dd HH:mm:ss} [%thread] %level %logger{36} - [%marker] [%X{method}] [%X{metadata}] %m%n
+            </Pattern>
+        </layout>
+    </appender>
+
     <appender name="RollingFile"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_DIRECTORY}/spring-boot-logger.log</file>
@@ -31,13 +40,17 @@
         </rollingPolicy>
     </appender>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="Console" />
     </root>
 
     <logger name="com.scheduler" level="trace" additivity="false">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
+    </logger>
+
+    <logger name="com.scheduler.service" level="trace" additivity="false">
+        <appender-ref ref="Service" />
     </logger>
 
 </configuration>
