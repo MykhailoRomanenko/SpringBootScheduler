@@ -39,3 +39,4 @@ out/
 db.mv.db
 db.trace.db
 logs/
+local.properties
