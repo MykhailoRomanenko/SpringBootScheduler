@@ -1,5 +1,6 @@
 package com.scheduler;
 
+import com.mylib.lib.service.MyService;
 import com.scheduler.task4.ProfileDependantComponent;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +12,8 @@ public class SchedulerApplication {
 
     public static void main(String[] args) {
        ApplicationContext context =  SpringApplication.run(SchedulerApplication.class, args);
-        System.out.println(context.getBean(ProfileDependantComponent.class).getName());
+        //System.out.println(context.getBean(ProfileDependantComponent.class).getName());
+        context.getBean(MyService.class).myMethod();
     }
 
 }
