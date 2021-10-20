@@ -28,7 +28,7 @@ compileJava {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.4'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.5.4'
-    implementation project(':logger-starter')
+    implementation project(':lib')
     developmentOnly 'org.springframework.boot:spring-boot-devtools:2.5.4'
     compileOnly 'org.projectlombok:lombok:1.18.2'
     annotationProcessor 'org.projectlombok:lombok:1.18.2'
