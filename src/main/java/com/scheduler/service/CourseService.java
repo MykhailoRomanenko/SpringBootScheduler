@@ -7,6 +7,7 @@ import com.scheduler.entity.Program;
 import com.scheduler.exception.NotFoundException;
 import com.scheduler.mapper.CourseMapper;
 import com.scheduler.repository.CourseRepository;
+import org.slf4j.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
     private final ProgramService programService;
+    private final Logger log = LoggerFactory.getLogger(CourseService.class);
 
     public CourseService(CourseRepository courseRepository,
                          CourseMapper courseMapper,
@@ -28,6 +30,11 @@ public class CourseService {
     }
 
     public CourseResponseDto findById(UUID id) {
+        Marker service = MarkerFactory.getMarker("SERVICE");
+        MDC.put("method", "Get course by id");
+        MDC.put("metadata", id.toString());
+        log.debug(service, "Request");
+        MDC.clear();
         return courseMapper.mapToResponse(findEntityById(id));
     }
 
