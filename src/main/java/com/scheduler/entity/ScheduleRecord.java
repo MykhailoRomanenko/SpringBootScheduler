@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.UUID;
 
 @Entity
@@ -27,6 +28,7 @@ public class ScheduleRecord {
     private String room;
 
     @Column(name = "timeslot")
+    @FutureOrPresent
     @Convert(converter = TimeslotConverter.class)
     private Timeslot timeslot;
 

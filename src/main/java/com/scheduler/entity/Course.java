@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +27,7 @@ public class Course {
     private String name;
 
     @Column(name = "year")
+    @FutureOrPresent
     private Integer year;
 
     @ManyToOne(fetch = FetchType.LAZY)
