@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,9 +24,12 @@ public class Class {
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @NotNull(message = "id cannot be null")
     private UUID id;
 
     @Column(name = "class_type")
+    @NotBlank(message = "Class type cannot be empty")
+    @NotEmpty
     private ClassType classType;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,6 +38,7 @@ public class Class {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
+    @NotNull(message = "id cannot be null")
     private Course course;
 
     @OneToMany(mappedBy = "scheduleClass")

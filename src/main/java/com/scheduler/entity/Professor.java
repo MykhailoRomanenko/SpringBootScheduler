@@ -23,18 +23,18 @@ public class Professor {
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @NotNull(message = "id cannot be null")
     private UUID id;
 
     @NotBlank(message = "Name cannot be empty")
+    @NotEmpty
     @Column(name = "name", length = 250)
     private String name;
 
-    @NotBlank(message = "Position cannot be empty")
     @Column(name = "position", length = 250)
     @Enumerated(EnumType.STRING)
     private Position position;
 
-    @NotBlank(message = "Classes list cannot be empty")
     @OneToMany(mappedBy = "course")
     private List<Class> classes;
 }

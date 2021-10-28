@@ -21,17 +21,22 @@ public class Course {
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @NotNull(message = "id cannot be null")
     private UUID id;
 
     @Column(name = "name", length = 250)
+    @NotBlank(message = "Course name cannot be empty")
+    @NotEmpty
     private String name;
 
     @Column(name = "year")
-    @FutureOrPresent
+    @Min(1)
+    @Max(6)
     private Integer year;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id")
+    @NotNull(message = "id cannot be null")
     private Program program;
 
     @OneToMany(mappedBy = "course")
