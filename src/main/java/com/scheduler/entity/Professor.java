@@ -35,6 +35,6 @@ public class Professor {
     @Enumerated(EnumType.STRING)
     private Position position;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "professor")
     private List<Class> classes;
 }
