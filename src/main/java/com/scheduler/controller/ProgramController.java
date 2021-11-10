@@ -24,7 +24,7 @@ import static org.springframework.http.ResponseEntity.ok;
         matchIfMissing = true)
 @RequestMapping("/api/v1/programs")
 @Validated
-public class ProgramController {
+public class ProgramController extends BaseController{
 
     private final ProgramService programService;
 

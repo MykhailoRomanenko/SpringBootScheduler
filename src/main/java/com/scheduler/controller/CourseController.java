@@ -22,7 +22,7 @@ import static org.springframework.http.ResponseEntity.ok;
         matchIfMissing = true)
 @RequestMapping("/api/v1/courses")
 @Validated
-public class CourseController {
+public class CourseController extends BaseController{
 
     @Autowired
     private CourseService courseService;

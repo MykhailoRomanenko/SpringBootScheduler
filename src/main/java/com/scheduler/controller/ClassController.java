@@ -21,7 +21,7 @@ import static org.springframework.http.ResponseEntity.ok;
         matchIfMissing = true)
 @RequestMapping("/api/v1/classes")
 @Validated
-public class ClassController {
+public class ClassController extends BaseController{
 
     private final ClassService classService;
 

@@ -25,7 +25,7 @@ import javax.validation.Valid;
         matchIfMissing = true)
 @RequestMapping("/api/v1/scheduleRecords")
 @Validated
-public class ScheduleRecordController {
+public class ScheduleRecordController extends BaseController{
 
     private final ScheduleRecordService scheduleRecordService;
 
