@@ -5,11 +5,13 @@ import com.scheduler.dto.Program.ProgramResponseDto;
 import com.scheduler.service.ProgramService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +23,7 @@ import static org.springframework.http.ResponseEntity.ok;
         havingValue = "true",
         matchIfMissing = true)
 @RequestMapping("/api/v1/programs")
+@Validated
 public class ProgramController {
 
     private final ProgramService programService;
@@ -40,13 +43,13 @@ public class ProgramController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ProgramResponseDto> save(@RequestBody ProgramCreateDto programCreateDto) {
+    public ResponseEntity<ProgramResponseDto> save(@Valid @RequestBody ProgramCreateDto programCreateDto) {
         return ok(programService.save(programCreateDto));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ProgramResponseDto> update(@PathVariable UUID id,
-                                                     @RequestBody ProgramCreateDto programCreateDto) {
+                                                     @Valid @RequestBody ProgramCreateDto programCreateDto) {
         return ok(programService.update(id, programCreateDto));
     }
 

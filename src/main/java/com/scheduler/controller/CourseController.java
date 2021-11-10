@@ -6,8 +6,10 @@ import com.scheduler.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +21,7 @@ import static org.springframework.http.ResponseEntity.ok;
         havingValue = "true",
         matchIfMissing = true)
 @RequestMapping("/api/v1/courses")
+@Validated
 public class CourseController {
 
     @Autowired
@@ -35,12 +38,12 @@ public class CourseController {
     }
 
     @PostMapping("")
-    public ResponseEntity<CourseResponseDto> save(@RequestBody CourseCreateDto course) {
+    public ResponseEntity<CourseResponseDto> save(@Valid @RequestBody CourseCreateDto course) {
         return ok(courseService.save(course));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CourseResponseDto> update(@PathVariable UUID id, @RequestBody CourseCreateDto course) {
+    public ResponseEntity<CourseResponseDto> update(@PathVariable UUID id, @Valid @RequestBody CourseCreateDto course) {
         return ok(courseService.update(id, course));
     }
 

@@ -1,5 +1,6 @@
 package com.scheduler.model;
 
+import com.scheduler.exception.NotFoundException;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -29,12 +30,12 @@ public enum Timeslot {
     public static Timeslot valueOf(Integer number) {
         Optional<Timeslot> timeslot =
                 Arrays.stream(values()).filter(slot -> slot.getNumber().equals(number)).findFirst();
-        return timeslot.orElseThrow(() -> new RuntimeException(String.format("Timeslot with number: %s, not found", number)));
+        return timeslot.orElseThrow(() -> new NotFoundException(String.format("Timeslot with number: %s, not found", number)));
     }
 
     public static Timeslot valueOfDescription(String description) {
         Optional<Timeslot> timeslot =
                 Arrays.stream(values()).filter(t -> t.getDescription().equalsIgnoreCase(description)).findFirst();
-        return timeslot.orElseThrow(() -> new RuntimeException(String.format("Timeslot with description: %s, not found", description)));
+        return timeslot.orElseThrow(() -> new NotFoundException(String.format("Timeslot with description: %s, not found", description)));
     }
 }

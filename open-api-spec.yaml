@@ -1,0 +1,595 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080/
+    description: Generated server url
+paths:
+  /api/v1/scheduleRecords/{id}:
+    get:
+      tags:
+        - schedule-record-controller
+      operationId: findById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ScheduleRecordResponseDto'
+    put:
+      tags:
+        - schedule-record-controller
+      operationId: update
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleRecordCreateDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ScheduleRecordResponseDto'
+    delete:
+      tags:
+        - schedule-record-controller
+      operationId: deleteById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/v1/programs/{id}:
+    get:
+      tags:
+        - program-controller
+      operationId: findById_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProgramResponseDto'
+    put:
+      tags:
+        - program-controller
+      operationId: update_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProgramCreateDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProgramResponseDto'
+    delete:
+      tags:
+        - program-controller
+      operationId: deleteById_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/v1/professors/{id}:
+    get:
+      tags:
+        - professor-controller
+      operationId: findById_2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProfessorResponseDto'
+    put:
+      tags:
+        - professor-controller
+      operationId: update_2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfessorCreateDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProfessorResponseDto'
+    delete:
+      tags:
+        - professor-controller
+      operationId: deleteById_2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/v1/courses/{id}:
+    get:
+      tags:
+        - course-controller
+      operationId: findById_3
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CourseResponseDto'
+    put:
+      tags:
+        - course-controller
+      operationId: update_3
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseCreateDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CourseResponseDto'
+    delete:
+      tags:
+        - course-controller
+      operationId: deleteById_3
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/v1/classes/{id}:
+    get:
+      tags:
+        - class-controller
+      operationId: findById_4
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ClassResponseDto'
+    put:
+      tags:
+        - class-controller
+      operationId: update_4
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassCreateDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ClassResponseDto'
+    delete:
+      tags:
+        - class-controller
+      operationId: deleteById_4
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+  /api/v1/scheduleRecords:
+    post:
+      tags:
+        - schedule-record-controller
+      operationId: save
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleRecordCreateDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ScheduleRecordResponseDto'
+  /api/v1/programs:
+    post:
+      tags:
+        - program-controller
+      operationId: save_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProgramCreateDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProgramResponseDto'
+  /api/v1/professors:
+    post:
+      tags:
+        - professor-controller
+      operationId: save_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfessorCreateDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProfessorResponseDto'
+  /api/v1/courses:
+    post:
+      tags:
+        - course-controller
+      operationId: save_3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseCreateDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CourseResponseDto'
+  /api/v1/classes:
+    post:
+      tags:
+        - class-controller
+      operationId: save_4
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassCreateDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ClassResponseDto'
+  /api/v1/scheduleRecords/all:
+    get:
+      tags:
+        - schedule-record-controller
+      operationId: findAll
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScheduleRecordResponseDto'
+  /api/v1/programs/all:
+    get:
+      tags:
+        - program-controller
+      operationId: findAll_1
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProgramResponseDto'
+  /api/v1/professors/all:
+    get:
+      tags:
+        - professor-controller
+      operationId: findAll_2
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfessorResponseDto'
+  /api/v1/courses/all:
+    get:
+      tags:
+        - course-controller
+      operationId: findAll_3
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CourseResponseDto'
+  /api/v1/classes/all:
+    get:
+      tags:
+        - class-controller
+      operationId: findAll_4
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClassResponseDto'
+components:
+  schemas:
+    ScheduleRecordCreateDto:
+      required:
+        - classId
+        - room
+        - timeslot
+        - weeks
+      type: object
+      properties:
+        room:
+          type: string
+        timeslot:
+          type: string
+        day:
+          maximum: 7
+          minimum: 1
+          type: integer
+          format: int32
+        weeks:
+          type: string
+        classId:
+          type: string
+          format: uuid
+    ScheduleRecordResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        room:
+          type: string
+        timeslot:
+          type: string
+        day:
+          type: integer
+          format: int32
+        weeks:
+          type: string
+        classId:
+          type: string
+          format: uuid
+    ProgramCreateDto:
+      required:
+        - faculty
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+        faculty:
+          type: string
+    ProgramResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        facultyId:
+          type: string
+          format: uuid
+    ProfessorCreateDto:
+      required:
+        - name
+        - position
+      type: object
+      properties:
+        name:
+          type: string
+        position:
+          type: string
+    ProfessorResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        position:
+          type: string
+    CourseCreateDto:
+      required:
+        - name
+        - programId
+      type: object
+      properties:
+        name:
+          type: string
+        year:
+          maximum: 6
+          minimum: 1
+          type: integer
+          format: int32
+        programId:
+          type: string
+          format: uuid
+    CourseResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        year:
+          type: integer
+          format: int32
+        programId:
+          type: string
+          format: uuid
+    ClassCreateDto:
+      required:
+        - classType
+        - courseId
+        - professorId
+      type: object
+      properties:
+        classType:
+          type: string
+        professorId:
+          type: string
+          format: uuid
+        courseId:
+          type: string
+          format: uuid
+    ClassResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        professorId:
+          type: string
+          format: uuid
+        courseId:
+          type: string
+          format: uuid
+        classType:
+          type: string

@@ -1,5 +1,6 @@
 package com.scheduler.model;
 
+import com.scheduler.exception.NotFoundException;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -21,6 +22,6 @@ public enum ClassType {
     public static ClassType valueOfDescription(String description) {
         Optional<ClassType> classType =
                 Arrays.stream(values()).filter(type -> type.getDescription().equalsIgnoreCase(description)).findFirst();
-        return classType.orElseThrow(() -> new RuntimeException(String.format("ClassType with description: %s, not found", description)));
+        return classType.orElseThrow(() -> new NotFoundException(String.format("ClassType with description: %s, not found", description)));
     }
 }

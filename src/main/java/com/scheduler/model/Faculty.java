@@ -1,5 +1,6 @@
 package com.scheduler.model;
 
+import com.scheduler.exception.NotFoundException;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -24,6 +25,6 @@ public enum Faculty {
     public static Faculty valueOfDescription(String description) {
         Optional<Faculty> faculty =
                 Arrays.stream(values()).filter(f -> f.getDescription().equalsIgnoreCase(description)).findFirst();
-        return faculty.orElseThrow(() -> new RuntimeException(String.format("Faculty with description: %s, not found", description)));
+        return faculty.orElseThrow(() -> new NotFoundException(String.format("Faculty with description: %s, not found", description)));
     }
 }

@@ -4,6 +4,7 @@ import com.scheduler.dto.ScheduleRecord.ScheduleRecordCreateDto;
 import com.scheduler.dto.ScheduleRecord.ScheduleRecordResponseDto;
 import com.scheduler.service.ScheduleRecordService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,12 +16,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @ConditionalOnProperty(
         value="controller.schedulerecord.active",
         havingValue = "true",
         matchIfMissing = true)
 @RequestMapping("/api/v1/scheduleRecords")
+@Validated
 public class ScheduleRecordController {
 
     private final ScheduleRecordService scheduleRecordService;
@@ -40,13 +44,13 @@ public class ScheduleRecordController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ScheduleRecordResponseDto> save(@RequestBody ScheduleRecordCreateDto scheduleRecordCreateDto) {
+    public ResponseEntity<ScheduleRecordResponseDto> save(@Valid @RequestBody ScheduleRecordCreateDto scheduleRecordCreateDto) {
         return ok(scheduleRecordService.save(scheduleRecordCreateDto));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ScheduleRecordResponseDto> update(@PathVariable UUID id,
-                                                            @RequestBody ScheduleRecordCreateDto scheduleRecordCreateDto) {
+                                                            @Valid @RequestBody ScheduleRecordCreateDto scheduleRecordCreateDto) {
         return ok(scheduleRecordService.update(id, scheduleRecordCreateDto));
     }
 
