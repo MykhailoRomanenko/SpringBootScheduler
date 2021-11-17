@@ -1,21 +1,26 @@
 ### Http request for classes
 
 GET localhost:8080/api/v1/courses/all
+Authorization: {{access-token}}
 
 ###
-GET localhost:8080/api/v1/courses/{id}
+GET localhost:8080/api/v1/courses/cc9e2275-6d3e-44e7-b024-f91194ae9f87
+Authorization: {{access-token}}
 
 ###
 POST localhost:8080/api/v1/courses
 Content-Type: application/json
+Authorization: {{access-token}}
 
 < ./request/postClass.json
 
 ###
-PUT localhost:8080/api/v1/courses/{id}
+PUT localhost:8080/api/v1/courses/cc9e2275-6d3e-44e7-b024-f91194ae9f87
 Content-Type: application/json
+Authorization: {{access-token}}
 
 < ./request/postClass.json
 
 ###
-DELETE localhost:8080/api/v1/courses/{id}
+DELETE localhost:8080/api/v1/courses/cc9e2275-6d3e-44e7-b024-f91194ae9f87
+Authorization: {{access-token}}
