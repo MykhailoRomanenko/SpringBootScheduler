@@ -4,7 +4,7 @@ GET localhost:8080/api/v1/courses/all
 Authorization: {{access-token}}
 
 ###
-GET localhost:8080/api/v1/courses/cc9e2275-6d3e-44e7-b024-f91194ae9f87
+GET localhost:8080/api/v1/courses/{id}
 Authorization: {{access-token}}
 
 ###
@@ -15,12 +15,12 @@ Authorization: {{access-token}}
 < ./request/postClass.json
 
 ###
-PUT localhost:8080/api/v1/courses/cc9e2275-6d3e-44e7-b024-f91194ae9f87
+PUT localhost:8080/api/v1/courses/{id}
 Content-Type: application/json
 Authorization: {{access-token}}
 
 < ./request/postClass.json
 
 ###
-DELETE localhost:8080/api/v1/courses/cc9e2275-6d3e-44e7-b024-f91194ae9f87
+DELETE localhost:8080/api/v1/courses/{id}
 Authorization: {{access-token}}
