@@ -39,6 +39,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.4'
     runtimeOnly("com.h2database:h2")
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.6.0'
 }
 
 

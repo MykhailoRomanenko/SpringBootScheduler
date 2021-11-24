@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers(HttpMethod.POST, "/api/v1/**").hasAuthority("write:all")
                 .mvcMatchers(HttpMethod.PUT, "/api/v1/**").hasAuthority("write:all")
                 .mvcMatchers(HttpMethod.DELETE, "/api/v1/**").hasAuthority("write:all")
+                .anyRequest().permitAll()
                 .and().cors()
                 .and().oauth2ResourceServer().jwt()
                 .decoder(jwtDecoder())
