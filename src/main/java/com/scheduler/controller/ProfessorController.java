@@ -12,14 +12,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.ok;
 
 @Controller
 @ConditionalOnProperty(
-        value="controller.professor.active",
+        value = "controller.professor.active",
         havingValue = "true",
         matchIfMissing = true)
 @RequestMapping("/api/v1/professors")
@@ -36,26 +35,41 @@ public class ProfessorController extends BaseController {
     @GetMapping("/all")
     public String findAll(Model model) {
         model.addAttribute("professors", professorService.findAll());
-        return "professors";
+        return "professors/all";
     }
 
     @GetMapping("/{id}")
     public String findById(@PathVariable UUID id, Model model) {
         model.addAttribute("professor", professorService.findById(id));
-        return "professor";
+        return "professor/findById";
     }
 
-    @ResponseBody
-    @PostMapping("")
-    public ResponseEntity<ProfessorResponseDto> save(@Valid @RequestBody ProfessorCreateDto professorCreateDto) {
-        return ok(professorService.save(professorCreateDto));
+//    @ResponseBody
+//    @PostMapping("")
+//    public ResponseEntity<ProfessorResponseDto> save(@Valid @RequestBody ProfessorCreateDto professorCreateDto) {
+//        return ok(professorService.save(professorCreateDto));
+//    }
+
+    @GetMapping("/new")
+    public String newProfessor(Model model) {
+        model.addAttribute("professor", new ProfessorCreateDto());
+        return "professors/new";
     }
+
+    @PostMapping()
+    public String save(@ModelAttribute("professor") ProfessorCreateDto professorCreateDto) {
+        professorService.save(professorCreateDto);
+        return "redirect:api/v1/professors/all";
+    }
+
+
     @ResponseBody
     @PutMapping("/{id}")
     public ResponseEntity<ProfessorResponseDto> update(@PathVariable UUID id,
                                                        @Valid @RequestBody ProfessorCreateDto professorCreateDto) {
         return ok(professorService.update(id, professorCreateDto));
     }
+
     @ResponseBody
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable UUID id) {

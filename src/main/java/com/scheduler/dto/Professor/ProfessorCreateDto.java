@@ -15,4 +15,7 @@ public class ProfessorCreateDto {
     @NotBlank(message = "Position name cannot be empty")
     @NotEmpty
     private String position;
+
+    public ProfessorCreateDto() {
+    }
 }
