@@ -6,6 +6,7 @@ import com.scheduler.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.ok;
 
-@RestController
+@Controller
 @ConditionalOnProperty(
         value="controller.professor.active",
         havingValue = "true",
@@ -44,17 +45,18 @@ public class ProfessorController extends BaseController {
         return "professor";
     }
 
+    @ResponseBody
     @PostMapping("")
     public ResponseEntity<ProfessorResponseDto> save(@Valid @RequestBody ProfessorCreateDto professorCreateDto) {
         return ok(professorService.save(professorCreateDto));
     }
-
+    @ResponseBody
     @PutMapping("/{id}")
     public ResponseEntity<ProfessorResponseDto> update(@PathVariable UUID id,
                                                        @Valid @RequestBody ProfessorCreateDto professorCreateDto) {
         return ok(professorService.update(id, professorCreateDto));
     }
-
+    @ResponseBody
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
         professorService.deleteById(id);
