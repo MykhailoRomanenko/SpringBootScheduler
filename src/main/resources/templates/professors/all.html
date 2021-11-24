@@ -17,7 +17,7 @@
     </thead>
     <tbody>
     <tr th:each="professor: ${professors}">
-        <td th:text="${professor.id}" />
+        <td> <a th:href="@{{id}(id=${professor.id})}"><span th:text="${professor.id}"></span></a> </td>
         <td th:text="${professor.name}" />
         <td th:text="${professor.position}" />
     </tr>
