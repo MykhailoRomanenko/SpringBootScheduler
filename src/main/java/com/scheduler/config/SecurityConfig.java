@@ -12,7 +12,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .mvcMatchers( "/").permitAll()
-                .mvcMatchers( "/api/v1/auth/token").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/api/v1/**").authenticated()
                 .mvcMatchers(HttpMethod.POST, "/api/v1/**").hasAuthority("write:all")
                 .mvcMatchers(HttpMethod.PUT, "/api/v1/**").hasAuthority("write:all")
