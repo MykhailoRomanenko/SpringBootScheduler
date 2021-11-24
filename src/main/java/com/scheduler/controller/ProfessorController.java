@@ -6,6 +6,7 @@ import com.scheduler.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,13 +33,15 @@ public class ProfessorController extends BaseController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProfessorResponseDto>> findAll() {
-        return ok(professorService.findAll());
+    public String findAll(Model model) {
+        model.addAttribute("professors", professorService.findAll());
+        return "professors";
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProfessorResponseDto> findById(@PathVariable UUID id) {
-        return ok(professorService.findById(id));
+    public String findById(@PathVariable UUID id, Model model) {
+        model.addAttribute("professor", professorService.findById(id));
+        return "professor";
     }
 
     @PostMapping("")

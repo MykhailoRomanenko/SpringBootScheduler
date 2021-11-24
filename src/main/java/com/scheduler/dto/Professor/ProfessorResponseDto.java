@@ -10,4 +10,16 @@ public class ProfessorResponseDto {
     private UUID id;
     private String name;
     private String position;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPosition() {
+        return position;
+    }
 }
