@@ -6,6 +6,8 @@ import com.scheduler.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -33,15 +35,16 @@ public class ProfessorController extends BaseController {
     }
 
     @GetMapping("/all")
-    public String findAll(Model model) {
+    public String findAll(Model model, @AuthenticationPrincipal OidcUser principal) {
         model.addAttribute("professors", professorService.findAll());
+        model.addAttribute("isAdmin", principal.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equalsIgnoreCase("SCOPE_admin")));
         return "professors/all";
     }
 
     @GetMapping("/{id}")
     public String findById(@PathVariable UUID id, Model model) {
         model.addAttribute("professor", professorService.findById(id));
-        return "professor/findById";
+        return "professors/findById";
     }
 
 //    @ResponseBody
@@ -59,7 +62,7 @@ public class ProfessorController extends BaseController {
     @PostMapping()
     public String save(@ModelAttribute("professor") ProfessorCreateDto professorCreateDto) {
         professorService.save(professorCreateDto);
-        return "redirect:api/v1/professors/all";
+        return "redirect:professors/all";
     }
 
 
