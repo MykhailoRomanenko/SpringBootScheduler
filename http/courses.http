@@ -24,3 +24,5 @@ Authorization: {{access-token}}
 ###
 DELETE localhost:8080/api/v1/courses/{id}
 Authorization: {{access-token}}
+
+###
