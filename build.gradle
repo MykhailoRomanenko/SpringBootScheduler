@@ -31,6 +31,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web:2.5.4'
     implementation('org.springframework.boot:spring-boot-starter-validation')
     implementation project(':lib')
+    compile 'org.aspectj:aspectjrt:1.9.8.RC3'
     developmentOnly 'org.springframework.boot:spring-boot-devtools:2.5.4'
     compileOnly 'org.projectlombok:lombok:1.18.2'
     annotationProcessor 'org.projectlombok:lombok:1.18.2'
