@@ -1,5 +1,7 @@
 package com.scheduler.service;
 
+import com.scheduler.aspects.LogInOut;
+import com.scheduler.aspects.TrackTime;
 import com.scheduler.dto.Course.CourseCreateDto;
 import com.scheduler.dto.Course.CourseResponseDto;
 import com.scheduler.entity.Course;
@@ -7,19 +9,20 @@ import com.scheduler.entity.Program;
 import com.scheduler.exception.NotFoundException;
 import com.scheduler.mapper.CourseMapper;
 import com.scheduler.repository.CourseRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class CourseService {
 
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
     private final ProgramService programService;
-    private final Logger log = LoggerFactory.getLogger(CourseService.class);
 
     public CourseService(CourseRepository courseRepository,
                          CourseMapper courseMapper,
@@ -29,11 +32,13 @@ public class CourseService {
         this.programService = programService;
     }
 
+    @TrackTime
+    @LogInOut
     public CourseResponseDto findById(UUID id) {
         Marker service = MarkerFactory.getMarker("SERVICE");
         MDC.put("method", "Get course by id");
         MDC.put("metadata", id.toString());
-        log.debug(service, "Request");
+        log.info(service, "Request");
         MDC.clear();
         return courseMapper.mapToResponse(findEntityById(id));
     }
@@ -43,6 +48,8 @@ public class CourseService {
                 .orElseThrow(() -> new NotFoundException(String.format("Course with id=%s not found", id)));
     }
 
+    @TrackTime
+    @LogInOut
     public List<CourseResponseDto> findAll() {
         return courseMapper.mapToResponses(courseRepository.findAll());
     }
