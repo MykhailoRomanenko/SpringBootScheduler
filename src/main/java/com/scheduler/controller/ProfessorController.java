@@ -10,7 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,8 +24,7 @@ import static org.springframework.http.ResponseEntity.ok;
         havingValue = "true",
         matchIfMissing = true)
 @RequestMapping("/api/v1/professors")
-@Validated
-public class ProfessorController extends BaseController {
+public class ProfessorController {
 
     private ProfessorService professorService;
 
@@ -54,17 +53,18 @@ public class ProfessorController extends BaseController {
 //    }
 
     @GetMapping("/new")
-    public String newProfessor(Model model) {
-        model.addAttribute("professor", new ProfessorCreateDto());
+    public String newProfessor(@ModelAttribute("professor") ProfessorCreateDto professorCreateDto) {
         return "professors/new";
     }
 
-    @PostMapping()
-    public String save(@ModelAttribute("professor") ProfessorCreateDto professorCreateDto) {
+    @PostMapping
+    public String save(@Valid @ModelAttribute("professor") ProfessorCreateDto professorCreateDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "professors/new";
+        }
         professorService.save(professorCreateDto);
         return "redirect:professors/all";
     }
-
 
     @ResponseBody
     @PutMapping("/{id}")

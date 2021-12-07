@@ -9,13 +9,11 @@
 <body>
 <h1>New Professor</h1>
 
-
-
 <form th:method="POST" th:action="@{/api/v1/professors}" th:object="${professor}">
     <label for="name">Enter name: </label>
-    <input type="text" th:field="*{name}" id="name">
+    <input type="text" th:field="*{name}" th:value="*{name}" id="name">
     <label for="position">Enter position: </label>
-    <select id="position" th:field="*{position}">
+    <select id="position" th:field="*{position}" th:value="*{position}">
         <option th:each="pos : ${T(com.scheduler.model.Position).values()}"
                 th:value="${pos.getDescription()}"
                 th:text="${pos.getDescription()}">
@@ -23,6 +21,9 @@
     </select>
     <br/>
     <input type="submit" th:value="create">
+    <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+        <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+    </div>
 </form>
 </body>
 </html>
