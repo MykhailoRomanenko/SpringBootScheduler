@@ -54,8 +54,8 @@
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <h2 class=".content">Professors</h2>
-                    <ul class="nav navbar-nav navbar-right">
-                        <l1><a th:href="@{new}">Add</a></l1>
+                    <ul th:if="${isAdmin}" class="nav navbar-nav navbar-right">
+                        <l2><a th:href="@{new}">Add</a></l2>
                     </ul>
                 </div>
             </div>
