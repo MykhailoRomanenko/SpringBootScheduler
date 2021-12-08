@@ -7,6 +7,9 @@ import com.scheduler.exception.NotFoundException;
 import com.scheduler.mapper.ProgramMapper;
 import com.scheduler.model.Faculty;
 import com.scheduler.repository.ProgramRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +27,7 @@ public class ProgramService {
         this.programMapper = programMapper;
     }
 
+    @Cacheable(cacheNames = "program")
     public ProgramResponseDto findById(UUID id) {
         return programMapper.mapToResponse(findEntityById(id));
     }
@@ -33,15 +37,21 @@ public class ProgramService {
                 .orElseThrow(() -> new NotFoundException(String.format("Professor with id=%s not found", id)));
     }
 
+    @Cacheable(cacheNames = "programs")
     public List<ProgramResponseDto> findAll() {
         return programMapper.mapToResponses(programRepository.findAll());
     }
 
+    @CacheEvict(cacheNames = "programs")
     public ProgramResponseDto save(ProgramCreateDto programCreateDto) {
         Program program = new Program();
         return updateProgram(programCreateDto, program);
     }
 
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "program", key = "#id"),
+            @CacheEvict(cacheNames = "programs")
+    })
     public ProgramResponseDto update(UUID id, ProgramCreateDto programCreateDto) {
         Program program = findEntityById(id);
         return updateProgram(programCreateDto, program);
@@ -53,6 +63,10 @@ public class ProgramService {
         return programMapper.mapToResponse(programRepository.save(program));
     }
 
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "program", key = "#id"),
+            @CacheEvict(cacheNames = "programs")
+    })
     public void deleteById(UUID id) {
         programRepository.deleteById(id);
     }

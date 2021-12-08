@@ -11,6 +11,9 @@ import com.scheduler.mapper.CourseMapper;
 import com.scheduler.repository.CourseRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.*;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +37,7 @@ public class CourseService {
 
     @TrackTime
     @LogInOut
+    @Cacheable(cacheNames = "course")
     public CourseResponseDto findById(UUID id) {
         Marker service = MarkerFactory.getMarker("SERVICE");
         MDC.put("method", "Get course by id");
@@ -50,15 +54,21 @@ public class CourseService {
 
     @TrackTime
     @LogInOut
+    @Cacheable(cacheNames = "courses")
     public List<CourseResponseDto> findAll() {
         return courseMapper.mapToResponses(courseRepository.findAll());
     }
 
+    @CacheEvict(cacheNames = "courses")
     public CourseResponseDto save(CourseCreateDto courseCreateDto) {
         Course course = new Course();
         return updateCourse(courseCreateDto, course);
     }
 
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "course", key = "#id"),
+            @CacheEvict(cacheNames = "courses")
+    })
     public CourseResponseDto update(UUID id, CourseCreateDto courseCreateDto) {
         Course course = findEntityById(id);
         return updateCourse(courseCreateDto, course);
@@ -74,6 +84,10 @@ public class CourseService {
         return courseMapper.mapToResponse(courseRepository.save(course));
     }
 
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "course", key = "#id"),
+            @CacheEvict(cacheNames = "courses")
+    })
     public void deleteById(UUID id) {
         courseRepository.deleteById(id);
     }

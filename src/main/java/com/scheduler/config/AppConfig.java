@@ -17,6 +17,6 @@ public class AppConfig {
     @Primary
     @Bean(name = "cacheManager")
     public CacheManager cacheManager() {
-        return new MyCacheManager("professors");
+        return new MyCacheManager("class", "classes", "courses", "course", "professors", "professor", "program", "programs", "schedulesecord", "schedulesecords");
     }
 }

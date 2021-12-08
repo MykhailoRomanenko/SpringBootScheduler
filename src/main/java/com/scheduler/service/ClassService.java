@@ -9,6 +9,9 @@ import com.scheduler.exception.NotFoundException;
 import com.scheduler.mapper.ClassMapper;
 import com.scheduler.model.ClassType;
 import com.scheduler.repository.ClassRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +35,7 @@ public class ClassService {
         this.mapper = mapper;
     }
 
+    @Cacheable(cacheNames = "class")
     public ClassResponseDto findById(UUID id) {
         return mapper.mapToResponse(findEntityById(id));
     }
@@ -41,15 +45,21 @@ public class ClassService {
                 .orElseThrow(() -> new NotFoundException(String.format("Class with id=%s not found", id)));
     }
 
+    @Cacheable(cacheNames = "classes")
     public List<ClassResponseDto> findAll() {
         return mapper.mapToResponses(classRepository.findAll());
     }
 
+    @CacheEvict(cacheNames = "classes")
     public ClassResponseDto save(ClassCreateDto classCreateDto) {
         Class aClass = new Class();
         return updateClass(classCreateDto, aClass);
     }
 
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "class", key = "#id"),
+            @CacheEvict(cacheNames = "classes")
+    })
     public ClassResponseDto update(UUID classId, ClassCreateDto classCreateDto) {
         Class aClass = classRepository.getById(classId);
         return updateClass(classCreateDto, aClass);
@@ -68,6 +78,10 @@ public class ClassService {
         return mapper.mapToResponse(classRepository.save(aClass));
     }
 
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "class", key = "#id"),
+            @CacheEvict(cacheNames = "classes")
+    })
     public void deleteById(UUID id) {
         classRepository.deleteById(id);
     }

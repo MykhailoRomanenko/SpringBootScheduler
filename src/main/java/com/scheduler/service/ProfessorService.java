@@ -9,6 +9,7 @@ import com.scheduler.model.Position;
 import com.scheduler.repository.ProfessorRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class ProfessorService {
         this.professorMapper = professorMapper;
     }
 
-    @Cacheable(cacheNames = "professors")
+    @Cacheable(cacheNames = "professor")
     public ProfessorResponseDto findById(UUID id) {
         return professorMapper.mapToResponse(findEntityById(id));
     }
@@ -36,15 +37,20 @@ public class ProfessorService {
                 .orElseThrow(() -> new NotFoundException(String.format("Professor with id=%s not found", id)));
     }
 
+    @Cacheable(cacheNames = "professors")
     public List<ProfessorResponseDto> findAll() {
         return professorMapper.mapToResponses(professorRepository.findAll());
     }
 
+    @CacheEvict(cacheNames = "professors")
     public ProfessorResponseDto save(ProfessorCreateDto professorCreateDto) {
         Professor professor = new Professor();
         return updateProfessor(professorCreateDto, professor);
     }
-    @CacheEvict(cacheNames = "professors", key = "#id")
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "professor", key = "#id"),
+            @CacheEvict(cacheNames = "professors")
+    })
     public ProfessorResponseDto update(UUID id, ProfessorCreateDto professorCreateDto) {
         Professor professor = findEntityById(id);
         return updateProfessor(professorCreateDto, professor);
@@ -56,6 +62,10 @@ public class ProfessorService {
         return professorMapper.mapToResponse(professorRepository.save(professor));
     }
 
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "professor", key = "#id"),
+            @CacheEvict(cacheNames = "professors")
+    })
     public void deleteById(UUID id) {
         professorRepository.deleteById(id);
     }
