@@ -6,24 +6,25 @@ import com.scheduler.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.ok;
 
-@RestController
+@Controller
 @ConditionalOnProperty(
-        value="controller.professor.active",
+        value = "controller.professor.active",
         havingValue = "true",
         matchIfMissing = true)
 @RequestMapping("/api/v1/professors")
-@Validated
-public class ProfessorController extends BaseController {
+public class ProfessorController {
 
     private ProfessorService professorService;
 
@@ -33,26 +34,46 @@ public class ProfessorController extends BaseController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProfessorResponseDto>> findAll() {
-        return ok(professorService.findAll());
+    public String findAll(Model model, @AuthenticationPrincipal OidcUser principal) {
+        model.addAttribute("professors", professorService.findAll());
+        model.addAttribute("isAdmin", principal.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equalsIgnoreCase("SCOPE_admin")));
+        return "professors/all";
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProfessorResponseDto> findById(@PathVariable UUID id) {
-        return ok(professorService.findById(id));
+    public String findById(@PathVariable UUID id, Model model) {
+        model.addAttribute("professor", professorService.findById(id));
+        return "professors/findById";
     }
 
-    @PostMapping("")
-    public ResponseEntity<ProfessorResponseDto> save(@Valid @RequestBody ProfessorCreateDto professorCreateDto) {
-        return ok(professorService.save(professorCreateDto));
+//    @ResponseBody
+//    @PostMapping("")
+//    public ResponseEntity<ProfessorResponseDto> save(@Valid @RequestBody ProfessorCreateDto professorCreateDto) {
+//        return ok(professorService.save(professorCreateDto));
+//    }
+
+    @GetMapping("/new")
+    public String newProfessor(@ModelAttribute("professor") ProfessorCreateDto professorCreateDto) {
+        return "professors/new";
     }
 
+    @PostMapping
+    public String save(@Valid @ModelAttribute("professor") ProfessorCreateDto professorCreateDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "professors/new";
+        }
+        professorService.save(professorCreateDto);
+        return "redirect:professors/all";
+    }
+
+    @ResponseBody
     @PutMapping("/{id}")
     public ResponseEntity<ProfessorResponseDto> update(@PathVariable UUID id,
                                                        @Valid @RequestBody ProfessorCreateDto professorCreateDto) {
         return ok(professorService.update(id, professorCreateDto));
     }
 
+    @ResponseBody
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
         professorService.deleteById(id);
