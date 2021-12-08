@@ -7,6 +7,8 @@ import com.scheduler.exception.NotFoundException;
 import com.scheduler.mapper.ProfessorMapper;
 import com.scheduler.model.Position;
 import com.scheduler.repository.ProfessorRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,7 @@ public class ProfessorService {
         this.professorMapper = professorMapper;
     }
 
+    @Cacheable(cacheNames = "professors")
     public ProfessorResponseDto findById(UUID id) {
         return professorMapper.mapToResponse(findEntityById(id));
     }
@@ -41,7 +44,7 @@ public class ProfessorService {
         Professor professor = new Professor();
         return updateProfessor(professorCreateDto, professor);
     }
-
+    @CacheEvict(cacheNames = "professors", key = "#id")
     public ProfessorResponseDto update(UUID id, ProfessorCreateDto professorCreateDto) {
         Professor professor = findEntityById(id);
         return updateProfessor(professorCreateDto, professor);
