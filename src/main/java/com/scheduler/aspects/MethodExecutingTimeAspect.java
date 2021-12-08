@@ -11,10 +11,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MethodExecutingTimeAspect {
     @Around("@annotation(com.scheduler.aspects.TrackTime)")
-    public void around(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
-        joinPoint.proceed();
+        Object o = joinPoint.proceed();
         long timeTaken = System.currentTimeMillis() - startTime;
         log.info("Time Taken by {} is {} ms", joinPoint, timeTaken);
+        return o;
     }
 }
