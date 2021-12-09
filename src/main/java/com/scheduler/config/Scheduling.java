@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class Scheduling {
 
-    @Scheduled(fixedDelay = 10000)
+//    @Scheduled(fixedDelay = 10000)
     public void schedulingDelay() {
         log.info("scheduling with delay");
     }
 
-    @Scheduled(cron = "* 12 * * * *")
+//    @Scheduled(cron = "* 12 * * * *")
     public void schedulingCron() {
         log.info("scheduling with cron");
     }
