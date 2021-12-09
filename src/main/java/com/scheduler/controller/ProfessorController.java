@@ -37,13 +37,13 @@ public class ProfessorController {
     public String findAll(Model model, @AuthenticationPrincipal OidcUser principal) {
         model.addAttribute("professors", professorService.findAll());
         model.addAttribute("isAdmin", principal.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equalsIgnoreCase("SCOPE_admin")));
-        return "professors/all";
+        return "professors/allProfessors";
     }
 
     @GetMapping("/{id}")
     public String findById(@PathVariable UUID id, Model model) {
         model.addAttribute("professor", professorService.findById(id));
-        return "professors/findById";
+        return "professors/findProfessorById";
     }
 
 //    @ResponseBody
@@ -52,15 +52,15 @@ public class ProfessorController {
 //        return ok(professorService.save(professorCreateDto));
 //    }
 
-    @GetMapping("/new")
+    @GetMapping("/professorForm")
     public String newProfessor(@ModelAttribute("professor") ProfessorCreateDto professorCreateDto) {
-        return "professors/new";
+        return "professors/createProfessor";
     }
 
     @PostMapping
     public String save(@Valid @ModelAttribute("professor") ProfessorCreateDto professorCreateDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "professors/new";
+            return "professors/createProfessor";
         }
         professorService.save(professorCreateDto);
         return "redirect:professors/all";
