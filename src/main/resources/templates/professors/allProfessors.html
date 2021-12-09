@@ -37,7 +37,7 @@
 
     <div id="content">
         <nav class="navbar navbar-default">
-            <div class="container-fluid">
+            <div class="flex-box">
                 <div class="navbar-header">
                     <button type="button" id="sidebarCollapse" class="navbar-btn">
                         <span></span>
@@ -46,15 +46,16 @@
                     </button>
                 </div>
 
+                <div>
+                    <P> Professors </P>
+                </div>
+
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul th:if="${isAdmin}" class="nav navbar-nav navbar-right">
-                        <l2><a th:href="@{professorForm}">Add</a></l2>
-                    </ul>
+                        <P  th:if="${isAdmin}"><a th:href="@{professorForm}">Add</a></P>
                 </div>
             </div>
-        </nav>
 
-        <h2 class=".content">Professors</h2>
+        </nav>
 
         <table class="table table-hover">
             <thead>
@@ -70,17 +71,12 @@
             </tr>
             </tbody>
         </table>
-
-
     </div>
 </div>
 
 
-<!-- jQuery CDN -->
 <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-<!-- Bootstrap Js CDN -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 <script type="text/javascript">
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
