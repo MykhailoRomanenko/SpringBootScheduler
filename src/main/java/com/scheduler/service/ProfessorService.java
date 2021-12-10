@@ -37,7 +37,7 @@ public class ProfessorService {
                 .orElseThrow(() -> new NotFoundException(String.format("Professor with id=%s not found", id)));
     }
 
-    @Cacheable(cacheNames = "professors")
+//    @Cacheable(cacheNames = "professors")
     public List<ProfessorResponseDto> findAll() {
         return professorMapper.mapToResponses(professorRepository.findAll());
     }
