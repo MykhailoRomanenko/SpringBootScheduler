@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Course {
-
+    // name, year, program_name(link)
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")

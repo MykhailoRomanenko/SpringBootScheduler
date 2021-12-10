@@ -19,7 +19,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "classes")
 public class Class {
-
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")

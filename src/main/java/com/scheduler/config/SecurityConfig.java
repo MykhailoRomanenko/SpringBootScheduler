@@ -26,5 +26,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers(HttpMethod.DELETE, "/api/v1/**").hasAuthority("SCOPE_admin")
                 .anyRequest().permitAll()
                 .and().oauth2Login();
+
+//                .mvcMatchers( "/").permitAll()
+//                .mvcMatchers(HttpMethod.GET, "/api/v1/professors/new").hasAuthority("SCOPE_admin")
+//                .mvcMatchers(HttpMethod.GET, "/api/v1/**").authenticated()
+//                .mvcMatchers(HttpMethod.POST, "/api/v1/**").hasAuthority("SCOPE_admin")
+//                .mvcMatchers(HttpMethod.PUT, "/api/v1/**").hasAuthority("SCOPE_admin")
+//                .mvcMatchers(HttpMethod.DELETE, "/api/v1/**").hasAuthority("SCOPE_admin")
+//                .anyRequest().permitAll().and().csrf().disable()
+//                .oauth2Login();
     }
 }

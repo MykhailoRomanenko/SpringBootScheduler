@@ -36,8 +36,9 @@ public class ProfessorController {
     @GetMapping("/all")
     public String findAll(Model model, @AuthenticationPrincipal OidcUser principal) {
         model.addAttribute("professors", professorService.findAll());
+        model.addAttribute("professor", new ProfessorResponseDto());
         model.addAttribute("isAdmin", principal.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equalsIgnoreCase("SCOPE_admin")));
-        return "professors/allProfessors";
+        return "professors/professors";
     }
 
     @GetMapping("/{id}")
@@ -46,21 +47,12 @@ public class ProfessorController {
         return "professors/findProfessorById";
     }
 
-//    @ResponseBody
-//    @PostMapping("")
-//    public ResponseEntity<ProfessorResponseDto> save(@Valid @RequestBody ProfessorCreateDto professorCreateDto) {
-//        return ok(professorService.save(professorCreateDto));
-//    }
-
-    @GetMapping("/professorForm")
-    public String newProfessor(@ModelAttribute("professor") ProfessorCreateDto professorCreateDto) {
-        return "professors/createProfessor";
-    }
-
     @PostMapping
-    public String save(@Valid @ModelAttribute("professor") ProfessorCreateDto professorCreateDto, BindingResult bindingResult) {
+    public String save(Model model, @Valid @ModelAttribute("professor") ProfessorCreateDto professorCreateDto, BindingResult bindingResult, @AuthenticationPrincipal OidcUser principal) {
         if (bindingResult.hasErrors()) {
-            return "professors/createProfessor";
+            model.addAttribute("isAdmin", principal.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equalsIgnoreCase("SCOPE_admin")));
+            model.addAttribute("professors", professorService.findAll());
+            return "professors/professors";
         }
         professorService.save(professorCreateDto);
         return "redirect:professors/all";
@@ -75,8 +67,9 @@ public class ProfessorController {
 
     @ResponseBody
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
+    public String deleteById(Model model, @AuthenticationPrincipal OidcUser principal, @PathVariable UUID id) {
         professorService.deleteById(id);
-        return ok().build();
+        model.addAttribute("professors", professorService.findAll());
+        return "redirect:professors/all";
     }
 }
