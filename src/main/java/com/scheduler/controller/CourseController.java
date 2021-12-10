@@ -3,7 +3,6 @@ package com.scheduler.controller;
 import com.scheduler.dto.Course.CourseCreateDto;
 import com.scheduler.dto.Course.CourseResponseDto;
 import com.scheduler.dto.Program.ProgramResponseDto;
-import com.scheduler.entity.Program;
 import com.scheduler.service.CourseService;
 import com.scheduler.service.ProgramService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -23,11 +22,11 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @Controller
 @ConditionalOnProperty(
-        value="controller.course.active",
+        value = "controller.course.active",
         havingValue = "true",
         matchIfMissing = true)
 @RequestMapping("/api/v1/courses")
-public class CourseController extends BaseController{
+public class CourseController extends BaseController {
 
     private final CourseService courseService;
     private final ProgramService programService;
@@ -37,11 +36,6 @@ public class CourseController extends BaseController{
         this.courseService = courseService;
         this.programService = programService;
     }
-
-//    @GetMapping("/all")
-//    public ResponseEntity<List<CourseResponseDto>> findAll() {
-//        return ok(courseService.findAll());
-//    }
 
     @GetMapping("/all")
     public String findAll(Model model, @AuthenticationPrincipal OidcUser principal) {
@@ -60,11 +54,6 @@ public class CourseController extends BaseController{
     public ResponseEntity<CourseResponseDto> findById(@PathVariable UUID id) {
         return ok(courseService.findById(id));
     }
-
-//    @PostMapping("")
-//    public ResponseEntity<CourseResponseDto> save(@Valid @RequestBody CourseCreateDto course) {
-//        return ok(courseService.save(course));
-//    }
 
     @PostMapping("")
     public String save(Model model, @Valid @ModelAttribute("course") CourseCreateDto course,

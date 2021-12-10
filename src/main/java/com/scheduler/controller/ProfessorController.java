@@ -66,7 +66,7 @@ public class ProfessorController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteById( @PathVariable UUID id) {
+    public String deleteById(@PathVariable UUID id) {
         professorService.deleteById(id);
         return "redirect:all";
     }

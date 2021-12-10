@@ -19,7 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Program {
-    //
+
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")

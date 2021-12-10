@@ -43,7 +43,7 @@ public class ScheduleRecordService {
 
     @Cacheable(cacheNames = "schedulesecords")
     public List<ScheduleRecordResponseDto> findAll() {
-        return scheduleRecordMapper.mapToResponses(scheduleRecordRepository.findAll());
+        return scheduleRecordMapper.mapToResponses(scheduleRecordRepository.findAllOrdered());
     }
 
     @CacheEvict(cacheNames = "schedulesecords")

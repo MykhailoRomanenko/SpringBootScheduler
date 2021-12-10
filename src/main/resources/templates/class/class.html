@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -19,15 +19,15 @@
             <li class="nav-item">
                 <a class="nav-link" href="/api/v1/scheduleRecords/all">Schedule</a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/api/v1/courses/all">Courses<span
-                        class="sr-only">(current)</span></a>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/v1/courses/all">Courses</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/api/v1/professors/all">Professors</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/api/v1/classes/all">Classes</a>
+            <li class="nav-item active">
+                <a class="nav-link" href="/api/v1/classes/all">Classes<span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/api/v1/programs/all">Programs</a>
@@ -47,21 +47,19 @@
         <table class="table text-center">
             <thead>
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Year</th>
-                <th scope="col">Program Name</th>
-                <th scope="col">Faculty</th>
+                <th scope="col">Professor</th>
+                <th scope="col">Course</th>
+                <th scope="col">Type</th>
                 <th th:if="${isAdmin}" scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="course: ${courses}">
-                <td th:text="${course.name}"></td>
-                <td th:text="${course.year}"></td>
-                <td th:text="${course.programName}"></td>
-                <td th:text="${course.programFaculty}"></td>
+            <tr th:each="class: ${classes}">
+                <td th:text="${class.professorName}"></td>
+                <td th:text="${class.courseName}"></td>
+                <td th:text="${class.classType}"></td>
                 <td th:if="${isAdmin}">
-                    <form th:method="DELETE" th:action="@{{id}(id=${course.id})}">
+                    <form th:method="DELETE" th:action="@{{id}(id=${class.id})}">
                         <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
                             Delete
                         </button>
@@ -79,47 +77,53 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addModalLabel">Modal title</h5>
-                <a href="/api/v1/courses/all" class="close" aria-label="Close">
+                <a href="/api/v1/classes/all" class="close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </a>
             </div>
-            <form th:method="POST" action="/api/v1/courses" th:object="${course}">
+            <form th:method="POST" action="/api/v1/classes" th:object="${clazz}">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" th:field="*{name}" th:value="*{name}" id="name" class="form-control"
-                               placeholder="Enter name">
-                    </div>
-                    <div class="form-group">
-                        <label for="year">Year</label>
-                        <select th:field="*{year}" th:value="*{year}" name="year" class="form-control" id="year">
-                            <option value="1" selected>1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
+                        <label for="classType">Class Type</label>
+                        <select th:field="*{classType}" th:value="*{classType}" name="classType" class="form-control"
+                                id="classType">
+                            <option th:each="typ : ${T(com.scheduler.model.ClassType).values()}"
+                                    th:value="${typ.getDescription()}"
+                                    th:text="${typ.getDescription()}">
+                            </option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="programId">Program</label>
-                        <select id="programId" th:field="*{programId}" th:value="*{programId}" class="form-control">
-                            <option th:each="pro : ${programs}"
-                                    th:value="${pro.getId()}"
-                                    th:text="${pro.getName() + ' ' + pro.getFaculty()}">
+                        <label for="courseId">Course</label>
+                        <select th:field="*{courseId}" th:value="*{courseId}" name="courseId" class="form-control"
+                                id="courseId">
+                            <option th:each="course : ${courses}"
+                                    th:value="${course.getId()}"
+                                    th:text="${course.getName()+ ' ' + course.getProgramFaculty() + ' ' + course.getProgramName()}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="professorId">Professor</label>
+                        <select th:field="*{professorId}" th:value="*{professorId}" name="professorId" class="form-control"
+                                id="professorId">
+                            <option th:each="professor : ${professors}"
+                                    th:value="${professor.getId()}"
+                                    th:text="${professor.getName() + ' ' + professor.getPosition()}">
                             </option>
                         </select>
                     </div>
                 </div>
+
                 <div class="modal-footer">
-                    <a href="/api/v1/courses/all" class="btn btn-secondary">Close</a>
+                    <a href="/api/v1/classes/all" class="btn btn-secondary">Close</a>
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
                 <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
                     <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
                 </div>
-
             </form>
+
         </div>
     </div>
 </div>
@@ -140,23 +144,21 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Confirm</button>
-                <button type="button" class="btn btn-secondary">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
-
-<script th:if="${course.year != null}">
+<script th:if="${clazz.classType != null}">
     function move() {
         $('#addModal').modal('show');
     }
 </script>
 
-<script th:if="${course.year == null}">
+<script th:if="${clazz.classType == null}">
     function move() {
     }
 </script>
-
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>

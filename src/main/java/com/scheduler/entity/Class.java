@@ -27,8 +27,7 @@ public class Class {
     private UUID id;
 
     @Column(name = "class_type")
-    @NotBlank(message = "Class type cannot be empty")
-    @NotEmpty
+    @NotNull(message = "classType cannot be null")
     @Enumerated(EnumType.STRING)
     private ClassType classType;
 
@@ -38,7 +37,7 @@ public class Class {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
-    @NotNull(message = "id cannot be null")
+    @NotNull(message = "course cannot be null")
     private Course course;
 
     @OneToMany(mappedBy = "scheduleClass")

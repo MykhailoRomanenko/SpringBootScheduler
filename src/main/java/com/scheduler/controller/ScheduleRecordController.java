@@ -5,30 +5,28 @@ import com.scheduler.dto.ScheduleRecord.ScheduleRecordCreateDto;
 import com.scheduler.dto.ScheduleRecord.ScheduleRecordResponseDto;
 import com.scheduler.service.ClassService;
 import com.scheduler.service.ScheduleRecordService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.ok;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.validation.Valid;
 
 @Controller
 @ConditionalOnProperty(
-        value="controller.schedulerecord.active",
+        value = "controller.schedulerecord.active",
         havingValue = "true",
         matchIfMissing = true)
 @RequestMapping("/api/v1/scheduleRecords")
-public class ScheduleRecordController extends BaseController{
+public class ScheduleRecordController extends BaseController {
 
     private final ScheduleRecordService scheduleRecordService;
     private final ClassService classService;
@@ -38,12 +36,6 @@ public class ScheduleRecordController extends BaseController{
         this.scheduleRecordService = scheduleRecordService;
         this.classService = classService;
     }
-
-//    @ResponseBody
-//    @GetMapping("/all")
-//    public ResponseEntity<List<ScheduleRecordResponseDto>> findAll() {
-//        return ok(scheduleRecordService.findAll());
-//    }
 
     @GetMapping("/all")
     public String findAll(Model model, @AuthenticationPrincipal OidcUser principal) {
@@ -65,7 +57,7 @@ public class ScheduleRecordController extends BaseController{
 
     @PostMapping("")
     public String save(Model model, @Valid @ModelAttribute("schedule") ScheduleRecordCreateDto scheduleRecordCreateDto,
-                                                          BindingResult bindingResult, @AuthenticationPrincipal OidcUser principal) {
+                       BindingResult bindingResult, @AuthenticationPrincipal OidcUser principal) {
         if (bindingResult.hasErrors()) {
             List<ScheduleRecordResponseDto> schedules = scheduleRecordService.findAll();
             List<ClassResponseDto> classes = classService.findAll();
