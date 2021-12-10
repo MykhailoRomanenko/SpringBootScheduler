@@ -9,11 +9,9 @@ import java.util.UUID;
 public class ScheduleRecordCreateDto {
 
     @NotBlank(message = "Course name cannot be empty")
-    @NotEmpty
     private String room;
 
     @NotBlank(message = "Timeslot cannot be empty")
-    @NotEmpty
     private String timeslot;
 
     @Min(1)
@@ -21,9 +19,8 @@ public class ScheduleRecordCreateDto {
     private Integer day;
 
     @NotBlank(message = "Week name cannot be empty")
-    @NotEmpty
     private String weeks;
 
-    @NotNull(message = "id cannot be null")
+    @NotNull(message = "Class cannot be null")
     private UUID classId;
 }

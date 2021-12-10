@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body onload='move();'>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Spring Scheduler</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/api/v1/scheduleRecords/all">Schedule<span
+                        class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/v1/courses/all">Courses</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/v1/professors/all">Professors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/v1/classes/all">Classes</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="d-flex justify-content-between pt-2 pb-2">
+        <div class="text-center">
+            <button class="btn btn-info" data-toggle="modal" data-target="#addModal"> Add
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table text-center">
+            <thead>
+            <tr>
+                <th scope="col">Day</th>
+                <th scope="col">Timeslot</th>
+                <th scope="col">Name</th>
+                <th scope="col">Professor</th>
+                <th scope="col">Type</th>
+                <th scope="col">Room</th>
+                <th scope="col">Weeks</th>
+                <!--                <th scope="col"></th>-->
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="schedule: ${schedules}">
+                <td th:switch="${schedule.day}">
+                    <p th:case="1" class="f-w-600">Понеділок</p>
+                    <p th:case="2" class="f-w-600">Вівторок</p>
+                    <p th:case="3" class="f-w-600">Середа</p>
+                    <p th:case="4" class="f-w-600">Четвер</p>
+                    <p th:case="5" class="f-w-600">П'ятниця</p>
+                    <p th:case="6" class="f-w-600">Субота</p>
+                    <p th:case="7" class="f-w-600">Неділя</p>
+                    <p th:case="*" class="f-w-600">-</p></td>
+                <td th:text="${schedule.timeslot}"></td>
+                <td th:text="${schedule.courseName}"></td>
+                <td th:text="${schedule.professorName}"></td>
+                <td th:text="${schedule.classType}"></td>
+                <td th:text="${schedule.room}"></td>
+                <td th:text="${schedule.weeks}"></td>
+                <!--                <td><button class="btn btn-warning">Edit</button> </td>-->
+                <!--                <td><button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button> </td>-->
+                <td>
+                    <form th:method="DELETE" th:action="@{{id}(id=${schedule.id})}">
+                        <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Modal title</h5>
+                <a href="/api/v1/scheduleRecords/all" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <form th:method="POST" action="/api/v1/scheduleRecords" th:object="${schedule}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="room">Room</label>
+                        <input th:field="*{room}" th:value="*{room}" name="room" type="text" class="form-control"
+                               id="room" placeholder="123">
+                    </div>
+                    <div class="form-group">
+                        <label for="timeslot">Timeslot</label>
+                        <select th:field="*{timeslot}" th:value="*{timeslot}" name="timeslot" class="form-control"
+                                id="timeslot">
+                            <option th:each="pos : ${T(com.scheduler.model.Timeslot).values()}"
+                                    th:value="${pos.getDescription()}"
+                                    th:text="${pos.getDescription()}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="weeks">Weeks</label>
+                        <input th:field="*{weeks}" th:value="*{weeks}" name="weeks" type="text" class="form-control"
+                               id="weeks" placeholder="1-14">
+                    </div>
+                    <div class="form-group">
+                        <label for="day">Day</label>
+                        <select th:field="*{day}" th:value="*{day}" name="day" class="form-control" id="day">
+                            <option value="1" selected>Понеділок</option>
+                            <option value="2">Вівторок</option>
+                            <option value="3">Середа</option>
+                            <option value="4">Четвер</option>
+                            <option value="5">П'ятниця</option>
+                            <option value="6">Субота</option>
+                            <option value="7">Неділя</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="class">Class</label>
+                        <select th:field="*{classId}" th:value="*{classId}" name="classId" class="form-control"
+                                id="class">
+                            <option th:each="class : ${classes}"
+                                    th:value="${class.getId()}"
+                                    th:text="${class.getCourseName() + ' ' + class.getClassType() + ' ' + class.getProfessorName()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <a href="/api/v1/scheduleRecords/all" class="btn btn-secondary">Close</a>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                    <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:if="${schedule.day != null}">
+    function move() {
+        $('#addModal').modal('show');
+    }
+</script>
+
+<script th:if="${schedule.day == null}">
+    function move() {
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>

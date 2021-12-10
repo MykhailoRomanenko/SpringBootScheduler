@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
-@EnableCaching
 @SpringBootApplication
 public class SchedulerApplication {
 

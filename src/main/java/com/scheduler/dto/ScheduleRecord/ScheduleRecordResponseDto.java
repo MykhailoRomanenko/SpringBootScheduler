@@ -12,5 +12,9 @@ public class ScheduleRecordResponseDto {
     private String timeslot;
     private Integer day;
     private String weeks;
-    private UUID classId;
+    private String courseName;
+    private UUID courseId;
+    private String professorName;
+    private UUID professorId;
+    private String classType;
 }

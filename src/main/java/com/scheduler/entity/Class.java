@@ -30,6 +30,7 @@ public class Class {
     @Column(name = "class_type")
     @NotBlank(message = "Class type cannot be empty")
     @NotEmpty
+    @Enumerated(EnumType.STRING)
     private ClassType classType;
 
     @ManyToOne(fetch = FetchType.LAZY)

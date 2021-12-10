@@ -11,6 +11,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/h2-console/**").permitAll();
+
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
+
+        http.authorizeRequests()
                 .mvcMatchers( "/").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/api/v1/professors/new").hasAuthority("SCOPE_admin")
                 .mvcMatchers(HttpMethod.GET, "/api/v1/**").authenticated()

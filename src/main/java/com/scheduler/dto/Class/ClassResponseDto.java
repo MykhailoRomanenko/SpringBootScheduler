@@ -9,6 +9,8 @@ public class ClassResponseDto {
 
     private UUID id;
     private UUID professorId;
+    private String professorName;
     private UUID courseId;
+    private String courseName;
     private String classType;
 }
