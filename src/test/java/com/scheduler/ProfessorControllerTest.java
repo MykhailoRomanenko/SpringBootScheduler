@@ -40,7 +40,7 @@ public class ProfessorControllerTest {
         ProfessorResponseDto responseDto = professorMapper.mapToResponse(professor);
         when(professorService.findById(any(UUID.class))).thenReturn(responseDto);
         this.mockMvc.perform(get("/api/v1/professors/12"))
-                .andDo(print()).andExpect(status().isUnauthorized())
+                .andDo(print()).andExpect(status().is3xxRedirection())
                 .andReturn();
     }
 
