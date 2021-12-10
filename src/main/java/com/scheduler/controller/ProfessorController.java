@@ -37,7 +37,7 @@ public class ProfessorController {
     public String findAll(Model model, @AuthenticationPrincipal OidcUser principal) {
         model.addAttribute("professors", professorService.findAll());
         model.addAttribute("professor", new ProfessorResponseDto());
-        model.addAttribute("isAdmin", principal.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equalsIgnoreCase("SCOPE_admin")));
+        model.addAttribute("isAdmin", principal != null && principal.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equalsIgnoreCase("SCOPE_admin")));
         return "professors/professors";
     }
 
@@ -50,7 +50,7 @@ public class ProfessorController {
     @PostMapping
     public String save(Model model, @Valid @ModelAttribute("professor") ProfessorCreateDto professorCreateDto, BindingResult bindingResult, @AuthenticationPrincipal OidcUser principal) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("isAdmin", principal.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equalsIgnoreCase("SCOPE_admin")));
+            model.addAttribute("isAdmin", principal != null && principal.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equalsIgnoreCase("SCOPE_admin")));
             model.addAttribute("professors", professorService.findAll());
             return "professors/professors";
         }
@@ -65,11 +65,9 @@ public class ProfessorController {
         return ok(professorService.update(id, professorCreateDto));
     }
 
-    @ResponseBody
     @DeleteMapping("/{id}")
-    public String deleteById(Model model, @AuthenticationPrincipal OidcUser principal, @PathVariable UUID id) {
+    public String deleteById( @PathVariable UUID id) {
         professorService.deleteById(id);
-        model.addAttribute("professors", professorService.findAll());
-        return "redirect:professors/all";
+        return "redirect:all";
     }
 }

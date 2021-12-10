@@ -4,6 +4,7 @@ import com.scheduler.dto.Program.ProgramResponseDto;
 import com.scheduler.entity.Program;
 import com.scheduler.model.Faculty;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 

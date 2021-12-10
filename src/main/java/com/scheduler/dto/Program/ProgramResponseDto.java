@@ -9,5 +9,5 @@ public class ProgramResponseDto {
 
     private UUID id;
     private String name;
-    private UUID facultyId;
+    private String faculty;
 }

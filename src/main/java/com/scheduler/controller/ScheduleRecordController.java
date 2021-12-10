@@ -6,6 +6,8 @@ import com.scheduler.dto.ScheduleRecord.ScheduleRecordResponseDto;
 import com.scheduler.service.ClassService;
 import com.scheduler.service.ScheduleRecordService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -44,10 +46,11 @@ public class ScheduleRecordController extends BaseController{
 //    }
 
     @GetMapping("/all")
-    public String findAll(Model model) {
+    public String findAll(Model model, @AuthenticationPrincipal OidcUser principal) {
         List<ScheduleRecordResponseDto> schedules = scheduleRecordService.findAll();
         List<ClassResponseDto> classes = classService.findAll();
         ScheduleRecordCreateDto schedule = new ScheduleRecordCreateDto();
+        model.addAttribute("isAdmin", principal != null && principal.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equalsIgnoreCase("SCOPE_admin")));
         model.addAttribute("schedules", schedules);
         model.addAttribute("schedule", schedule);
         model.addAttribute("classes", classes);
@@ -62,12 +65,13 @@ public class ScheduleRecordController extends BaseController{
 
     @PostMapping("")
     public String save(Model model, @Valid @ModelAttribute("schedule") ScheduleRecordCreateDto scheduleRecordCreateDto,
-                                                          BindingResult bindingResult) {
+                                                          BindingResult bindingResult, @AuthenticationPrincipal OidcUser principal) {
         if (bindingResult.hasErrors()) {
             List<ScheduleRecordResponseDto> schedules = scheduleRecordService.findAll();
             List<ClassResponseDto> classes = classService.findAll();
             model.addAttribute("schedules", schedules);
             model.addAttribute("classes", classes);
+            model.addAttribute("isAdmin", principal != null && principal.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equalsIgnoreCase("SCOPE_admin")));
             return "schedule/schedule";
         }
         scheduleRecordService.save(scheduleRecordCreateDto);

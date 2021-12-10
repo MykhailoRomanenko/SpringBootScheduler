@@ -11,4 +11,6 @@ public class CourseResponseDto {
     private String name;
     private Integer year;
     private UUID programId;
+    private String programName;
+    private String programFaculty;
 }

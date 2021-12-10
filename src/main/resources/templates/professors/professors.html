@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
-<body>
+<body onload='move();'>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Spring Scheduler</a>
@@ -17,16 +17,17 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Schedule<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/api/v1/scheduleRecords/all">Schedule<span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Courses</a>
+                <a class="nav-link" href="/api/v1/courses/all">Courses</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Professors</a>
+                <a class="nav-link" href="/api/v1/professors/all">Professors</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Classes</a>
+                <a class="nav-link" href="/api/v1/classes/all">Classes</a>
             </li>
         </ul>
     </div>
@@ -34,7 +35,7 @@
 
 <div class="container">
     <div class="d-flex justify-content-between pt-2 pb-2">
-        <div class="text-center" th:if="${isAdmin}">
+        <div th:if="${isAdmin}" class="text-center">
             <button class="btn btn-info" data-toggle="modal" data-target="#addModal"> Add
             </button>
         </div>
@@ -45,19 +46,19 @@
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Position</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th th:if="${isAdmin}" scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="professor: ${professors}">
-                <td><a th:href="@{{id}(id=${professor.id})}"><span th:text="${professor.name}"></span></a></td>
-                <td th:text="${professor.position}"/>
-                <td>
-                    <button class="btn btn-warning">Edit</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                <td th:text="${professor.name}"></td>
+                <td th:text="${professor.position}"></td>
+                <td th:if="${isAdmin}">
+                    <form th:method="DELETE" th:action="@{{id}(id=${professor.id})}">
+                        <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                            Delete
+                        </button>
+                    </form>
                 </td>
             </tr>
             </tbody>
@@ -71,9 +72,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <a href="/api/v1/professors/all" class="close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>
+                </a>
             </div>
             <form th:method="POST" action="/api/v1/professors" th:object="${professor}">
                 <div class="modal-body">
@@ -92,12 +93,12 @@
                         </select>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <a href="/api/v1/professors/all" class="btn btn-secondary">Close</a>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
                 <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
                     <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" th:value="create" class="btn btn-primary">submit</button>
                 </div>
 
             </form>
@@ -126,6 +127,17 @@
         </div>
     </div>
 </div>
+
+<script th:if="${professor.position != null}">
+    function move() {
+        $('#addModal').modal('show');
+    }
+</script>
+
+<script th:if="${professor.position == null}">
+    function move() {
+    }
+</script>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
